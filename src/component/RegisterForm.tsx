@@ -13,7 +13,7 @@ interface ErrorResponse {
 }
 
 interface RegisterFormProps {
-  onSuccess: () => void; // Define the prop type
+  onSuccess: () => void; 
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
@@ -30,12 +30,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         { email, password }
       );
       setMessage(response.data.message || 'User registered successfully!');
-      setError(null); // Clear any previous errors
-      onSuccess(); // Call the onSuccess callback to show the login form
+      setError(null); 
+      onSuccess(); 
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       setError(axiosError.response?.data?.message || 'Registration failed.');
-      setMessage(''); // Clear success message if there's an error
+      setMessage(''); 
     }
   };
 

@@ -1,4 +1,3 @@
-// helpers/CookieManager.ts
 export const setToken = (token: string) => {
     localStorage.setItem('jwtToken', token); // Store token in localStorage
   };

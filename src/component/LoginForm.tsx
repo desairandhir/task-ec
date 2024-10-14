@@ -1,22 +1,18 @@
-
-// LoginForm.tsx
-"use client"; // Specifies this is a Client Component
+"use client"; 
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Import the useRouter hook from Next.js
+import { useRouter } from 'next/navigation'; 
 import axios, { AxiosError } from 'axios';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
-import { setToken } from '../helpers/CookieManager'; // Import the function to set the JWT token
+import { setToken } from '../helpers/CookieManager'; 
 
-// Define the structure of the expected response
 interface LoginResponse {
   token: string;
-  message: string; // Adjust according to your actual API response
+  message: string; 
 }
 
-// Define the structure for possible error response
 interface ErrorResponse {
-  message?: string; // Optional message property
+  message?: string; 
 }
 
 const LoginForm: React.FC = () => {
@@ -25,12 +21,12 @@ const LoginForm: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter(); // Initialize the useRouter hook
+  const router = useRouter(); 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setMessage(''); // Clear previous messages
-    setError(null); // Clear previous errors
+    setMessage(''); 
+    setError(null); 
 
     try {
       const response = await axios.post<LoginResponse>(
@@ -38,24 +34,22 @@ const LoginForm: React.FC = () => {
         { email, password }
       );
     
-      console.log(response.data); // Log the response to see its structure
-    
-      // Check if the token exists in the response
+      console.log(response.data); 
+
       if (response.data.token) {
-        setToken(response.data.token); // Save the token
-        setMessage('Login successful!'); // Show success message
-        setError(null); // Clear any existing error
+        setToken(response.data.token); 
+        setMessage('Login successful!'); 
+        setError(null); 
     
-        // Redirect to the product listing page after successful login
         router.push('/products');
       } else {
         setError('Login failed. Token not received.');
       }
     
     } catch (error) {
-      const axiosError = error as AxiosError<ErrorResponse>; // Assert the error type
+      const axiosError = error as AxiosError<ErrorResponse>; 
       setError(axiosError.response?.data?.message || 'Login failed.');
-      setMessage(''); // Clear success message if there's an error
+      setMessage(''); 
     }
     
   };
